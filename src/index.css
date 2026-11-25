@@ -1,0 +1,219 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   PANKAJXVISUALS — THEME VARIABLES & CINEMATIC DESIGN TOKENS
+   Edit colors and fonts right here to customize the entire website.
+   ============================================================================ */
+@theme {
+  --font-display: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-cinema-bg: #0a0a0a;
+  --color-cinema-surface: #111111;
+  --color-cinema-elevated: #171717;
+  --color-cinema-ink: #f5f2eb;
+  --color-cinema-muted: #9e998e;
+  --color-amber-start: #ff5a1f;
+  --color-amber-end: #ffb020;
+}
+
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-surface: #111111;
+  --bg-elevated: #171717;
+  --text-primary: #f5f2eb;
+  --text-muted: #9e998e;
+  --accent-start: #ff5a1f;
+  --accent-end: #ffb020;
+  --accent-gradient: linear-gradient(135deg, #ff5a1f 0%, #ffb020 100%);
+  color-scheme: dark;
+}
+
+html {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: clip;
+  min-height: 100vh;
+}
+
+/* Smooth Lenis integration */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* ============================================================================
+   ACCENT UTILITIES & FILM TEXTURES
+   ============================================================================ */
+.bg-amber-gradient {
+  background-image: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+}
+
+.text-amber-gradient {
+  background-image: linear-gradient(135deg, var(--accent-start) 0%, var(--accent-end) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Subtle animated 35mm film grain overlay */
+@keyframes film-grain-shift {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-1.5%, 1.5%);
+  }
+  40% {
+    transform: translate(1.5%, -1%);
+  }
+  60% {
+    transform: translate(-1%, -1.5%);
+  }
+  80% {
+    transform: translate(1%, 1%);
+  }
+}
+
+.film-grain-overlay {
+  position: fixed;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  pointer-events: none;
+  z-index: 45;
+  opacity: 0.038;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: film-grain-shift 0.45s steps(2) infinite;
+}
+
+/* 35mm Film Sprocket Rail Pattern */
+.sprocket-rail-horizontal {
+  height: 22px;
+  background-color: #0e0e0e;
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0px,
+    transparent 12px,
+    #1f1e1c 12px,
+    #1f1e1c 28px,
+    transparent 28px,
+    transparent 44px
+  );
+  background-size: 44px 12px;
+  background-position: left center;
+  background-repeat: repeat-x;
+}
+
+.sprocket-rail-vertical {
+  width: 22px;
+  background-color: #0e0e0e;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 10px,
+    #1f1e1c 10px,
+    #1f1e1c 22px,
+    transparent 22px,
+    transparent 34px
+  );
+  background-size: 12px 34px;
+  background-position: center top;
+  background-repeat: repeat-y;
+}
+
+/* Blinking Camera REC Indicator */
+@keyframes rec-blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0.22;
+  }
+}
+
+.animate-rec-blink {
+  animation: rec-blink 1.2s ease-in-out infinite;
+}
+
+/* Infinite Seamless Client Marquee */
+@keyframes marquee-scroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 34s linear infinite;
+}
+
+.marquee-wrapper:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Custom thin dark scrollbar for horizontal fallback strips */
+.film-scrollbar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.film-scrollbar::-webkit-scrollbar-track {
+  background: #111111;
+}
+
+.film-scrollbar::-webkit-scrollbar-thumb {
+  background: #2b2926;
+  border-radius: 999px;
+}
+
+.film-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #ff5a1f;
+}
+
+/* Accessible focus styles */
+:focus-visible {
+  outline: 2px solid #ff8a1f;
+  outline-offset: 3px;
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .film-grain-overlay {
+    animation: none !important;
+  }
+
+  .animate-rec-blink {
+    animation: none !important;
+  }
+
+  .marquee-track {
+    animation: none !important;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+}
