@@ -37,7 +37,7 @@ The **Creator Spotlight** and automatic YouTube channel avatars run through `/ap
 3. Go to **APIs & Services → Library**, search for **YouTube Data API v3**, and click **Enable**.
 4. Go to **APIs & Services → Credentials → Create Credentials → API key**.
 5. Click **Edit API key** → under **API restrictions**, choose **Restrict key** and select **YouTube Data API v3**.
-6. Copy the key and add it as `YOUTUBE_API_KEY` in Vercel/Netlify environment variables (or `.env.local` locally).
+6. Copy the key and add it as `YOUTUBE_API_KEY` in Vercel environment variables (or `.env.local` locally).
 
 > **Zero-breakage fallback:** If `YOUTUBE_API_KEY` is missing or quota runs out, the site automatically falls back to your manual logos, initials, and links in `src/data.ts`.
 
@@ -47,7 +47,7 @@ The **Creator Spotlight** and automatic YouTube channel avatars run through `/ap
 
 | Variable | Where | Purpose |
 | --- | --- | --- |
-| `YOUTUBE_API_KEY` | Server only (Vercel / Netlify / `.env.local`) | Fetches YouTube channel avatars, subscriber counts & top videos |
+| `YOUTUBE_API_KEY` | Server only (Vercel / `.env.local`) | Fetches YouTube channel avatars, subscriber counts & top videos |
 | `VITE_PLAUSIBLE_DOMAIN` | Optional (client build) | Enables cookie-free Plausible analytics |
 | `VITE_GA_ID` | Optional (client build) | Enables cookieless Google Analytics (`client_storage: none`) |
 
@@ -104,5 +104,3 @@ Instagram does not offer a public profile API. Drop a square image into `public/
 2. Import the project in [Vercel](https://vercel.com/new).
 3. Add `YOUTUBE_API_KEY` under **Project Settings → Environment Variables**.
 4. Deploy — Vercel automatically builds Vite (`dist/`) and serves `/api/creator.ts` as a serverless function with CDN caching (`vercel.json`).
-
-*(Netlify is also supported via `netlify/functions/creator.ts` and `netlify.toml`.)*

@@ -1,5 +1,6 @@
-import { ArrowUp, Instagram, Mail, MessageCircle } from "lucide-react";
+import { ArrowUp, Mail } from "lucide-react";
 import { CONTACT, SITE_INFO } from "../data";
+import { InstagramIcon, StudioApertureIcon, WhatsAppIcon } from "./BrandIcons";
 
 export function Footer() {
   const scrollToTop = () => {
@@ -10,8 +11,9 @@ export function Footer() {
     <footer className="border-t border-[var(--border-subtle)] bg-[var(--bg-primary)] py-10 pb-[max(2.5rem,env(safe-area-inset-bottom))] sm:py-12">
       <div className="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-6 px-5 sm:flex-row sm:items-center sm:px-8">
         <div>
-          <p className="font-display text-2xl tracking-[0.12em] text-[var(--text-primary)] uppercase">
-            {SITE_INFO.brandLogo}
+          <p className="inline-flex items-center gap-2.5 font-display text-2xl tracking-[0.12em] text-[var(--text-primary)] uppercase">
+            <StudioApertureIcon className="h-5 w-5 text-[var(--accent-solid)]" />
+            <span>{SITE_INFO.brandLogo}</span>
           </p>
           <p className="mt-1.5 text-xs text-[var(--text-muted)] sm:text-[13px]">
             © {SITE_INFO.copyrightYear} {SITE_INFO.name} · {SITE_INFO.brand} ·{" "}
@@ -27,7 +29,7 @@ export function Footer() {
             aria-label="Instagram"
             className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] text-[var(--text-secondary)] transition-colors hover:border-[var(--accent-solid)] hover:text-[var(--accent-solid)]"
           >
-            <Instagram className="h-4 w-4" />
+            <InstagramIcon className="h-4 w-4" />
           </a>
 
           <a
@@ -35,9 +37,9 @@ export function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] text-[var(--text-secondary)] transition-colors hover:border-[var(--accent-solid)] hover:text-[var(--accent-solid)]"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] text-[var(--text-secondary)] transition-colors hover:border-[var(--accent-solid)] hover:text-[#25D366]"
           >
-            <MessageCircle className="h-4 w-4" />
+            <WhatsAppIcon className="h-4 w-4" />
           </a>
 
           <a

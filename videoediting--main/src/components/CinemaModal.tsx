@@ -206,13 +206,13 @@ export function CinemaModal({
       aria-modal="true"
       aria-label={current.title}
       onClick={onClose}
-      className="fixed inset-0 z-[110] flex items-center justify-center bg-black/92 p-3 backdrop-blur-md sm:p-6"
+      className="fixed inset-0 z-[110] flex items-center justify-center bg-black/92 p-2.5 backdrop-blur-md sm:p-6"
     >
       <div
         ref={dialogRef}
         onClick={(e) => e.stopPropagation()}
         className={`relative w-full overflow-hidden rounded-xl border border-white/15 bg-[#101010] shadow-2xl ${
-          isVertical ? "max-w-[420px]" : "max-w-4xl"
+          isVertical ? "max-w-[440px]" : "max-w-5xl"
         }`}
       >
         {/* Modal Header */}
@@ -278,7 +278,7 @@ export function CinemaModal({
         {/* Responsive Video Stage (unmounts cleanly on close) */}
         <div
           className={`relative flex w-full items-center justify-center bg-black ${
-            isVertical ? "aspect-[9/16] max-h-[74dvh]" : "aspect-video max-h-[74dvh]"
+            isVertical ? "aspect-[9/16] max-h-[78dvh]" : "aspect-video max-h-[82dvh]"
           }`}
         >
           {isLocalVideo && current.localVideoUrl ? (

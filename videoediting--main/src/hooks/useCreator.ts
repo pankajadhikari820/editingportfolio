@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { CreatorApiResponse } from "../../api/_youtube";
+import type { CreatorApiError, CreatorApiResponse } from "../../api/_youtube";
 
 export type { CreatorApiResponse, CreatorVideo, CreatorChannelInfo } from "../../api/_youtube";
 
@@ -10,7 +10,37 @@ interface CacheEntry {
 
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours (matches API s-maxage=21600)
 const STORAGE_PREFIX = "pxv_creator_v1_";
+const API_DISABLED_KEY = "pxv_creator_api_disabled_v1";
+
 const memoryCache = new Map<string, CacheEntry>();
+const inFlightRequests = new Map<string, Promise<CreatorFetchOutcome>>();
+let apiDisabledMemory = false;
+
+type CreatorFetchOutcome =
+  | { ok: true; data: CreatorApiResponse }
+  | { ok: false; error: string | null };
+
+function isApiDisabled(): boolean {
+  if (apiDisabledMemory) return true;
+  try {
+    if (window.sessionStorage.getItem(API_DISABLED_KEY) === "1") {
+      apiDisabledMemory = true;
+      return true;
+    }
+  } catch {
+    // Ignore storage access errors
+  }
+  return false;
+}
+
+function markApiDisabled(): void {
+  apiDisabledMemory = true;
+  try {
+    window.sessionStorage.setItem(API_DISABLED_KEY, "1");
+  } catch {
+    // Ignore storage access errors
+  }
+}
 
 function buildCacheKey(youtubeHandle?: string, youtubeChannelId?: string): string | null {
   if (youtubeChannelId?.trim()) return `id:${youtubeChannelId.trim()}`;
@@ -53,6 +83,49 @@ function writeCachedCreator(key: string, data: CreatorApiResponse): void {
   }
 }
 
+function fetchCreatorOnce(
+  cacheKey: string,
+  youtubeHandle?: string,
+  youtubeChannelId?: string
+): Promise<CreatorFetchOutcome> {
+  const existing = inFlightRequests.get(cacheKey);
+  if (existing) return existing;
+
+  const params = new URLSearchParams();
+  if (youtubeChannelId?.trim()) {
+    params.set("channelId", youtubeChannelId.trim());
+  } else if (youtubeHandle?.trim()) {
+    params.set("handle", youtubeHandle.trim());
+  }
+
+  const request = fetch(`/api/creator?${params.toString()}`, {
+    headers: { Accept: "application/json" },
+  })
+    .then(async (res): Promise<CreatorFetchOutcome> => {
+      const payload = (await res.json()) as Partial<CreatorApiResponse> & Partial<CreatorApiError>;
+      if (payload.code === "NO_API_KEY" || payload.configured === false) {
+        markApiDisabled();
+        return { ok: false, error: null };
+      }
+      if (!res.ok || !payload.channel) {
+        return { ok: false, error: payload.error || "Unable to fetch creator channel." };
+      }
+      const data = payload as CreatorApiResponse;
+      writeCachedCreator(cacheKey, data);
+      return { ok: true, data };
+    })
+    .catch((err: unknown): CreatorFetchOutcome => ({
+      ok: false,
+      error: err instanceof Error ? err.message : "Using fallback creator data.",
+    }))
+    .finally(() => {
+      inFlightRequests.delete(cacheKey);
+    });
+
+  inFlightRequests.set(cacheKey, request);
+  return request;
+}
+
 export interface UseCreatorResult {
   data: CreatorApiResponse | null;
   loading: boolean;
@@ -73,50 +146,37 @@ export function useCreator(
 ): UseCreatorResult {
   const cacheKey = buildCacheKey(youtubeHandle, youtubeChannelId);
   const cached = cacheKey ? readCachedCreator(cacheKey) : null;
+  const disabled = isApiDisabled();
 
   const [fetched, setFetched] = useState<FetchState | null>(null);
 
   useEffect(() => {
     if (!cacheKey) return;
-    if (readCachedCreator(cacheKey)) return;
+    if (readCachedCreator(cacheKey) || isApiDisabled()) return;
 
-    const controller = new AbortController();
-    const params = new URLSearchParams();
-    if (youtubeChannelId?.trim()) {
-      params.set("channelId", youtubeChannelId.trim());
-    } else if (youtubeHandle?.trim()) {
-      params.set("handle", youtubeHandle.trim());
-    }
+    let cancelled = false;
 
-    fetch(`/api/creator?${params.toString()}`, {
-      signal: controller.signal,
-      headers: { Accept: "application/json" },
-    })
-      .then(async (res) => {
-        const payload = (await res.json()) as CreatorApiResponse & { error?: string };
-        if (!res.ok || !payload.channel) {
-          throw new Error(payload.error || "Unable to fetch creator channel.");
-        }
-        writeCachedCreator(cacheKey, payload);
+    void fetchCreatorOnce(cacheKey, youtubeHandle, youtubeChannelId).then((outcome) => {
+      if (cancelled) return;
+      if (outcome.ok) {
         setFetched({
           key: cacheKey,
-          data: payload,
+          data: outcome.data,
           error: null,
           isFallback: false,
         });
-      })
-      .catch((err: unknown) => {
-        if (err instanceof DOMException && err.name === "AbortError") return;
+      } else {
         setFetched({
           key: cacheKey,
           data: null,
-          error: err instanceof Error ? err.message : "Using fallback creator data.",
+          error: outcome.error,
           isFallback: true,
         });
-      });
+      }
+    });
 
     return () => {
-      controller.abort();
+      cancelled = true;
     };
   }, [cacheKey, youtubeHandle, youtubeChannelId]);
 
@@ -126,6 +186,10 @@ export function useCreator(
 
   if (cached) {
     return { data: cached, loading: false, error: null, isFallback: false };
+  }
+
+  if (disabled) {
+    return { data: null, loading: false, error: null, isFallback: true };
   }
 
   if (fetched && fetched.key === cacheKey) {

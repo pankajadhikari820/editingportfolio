@@ -6,8 +6,8 @@ import {
   Volume2,
   Sparkles,
   Film,
-  Youtube,
 } from "lucide-react";
+import { YouTubeIcon } from "./BrandIcons";
 import {
   ALL_CLIENTS,
   SELECTED_WORK,
@@ -128,7 +128,7 @@ function ShowcaseCard({
             className={`relative block w-full overflow-hidden bg-[#080808] text-left cursor-pointer ${
               isWide
                 ? "aspect-video"
-                : "aspect-[9/13] sm:aspect-[9/14] lg:aspect-[9/15]"
+                : "aspect-[4/5] sm:aspect-[9/14] lg:aspect-[9/15]"
             }`}
           >
             {resolvedPoster && (
@@ -170,7 +170,7 @@ function ShowcaseCard({
             <div className="absolute inset-x-3.5 top-3.5 flex items-center justify-between gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-2.5 py-1 font-mono text-[10px] tracking-[0.12em] text-white/95 uppercase backdrop-blur-md">
                 {ytId ? (
-                  <Youtube className="h-3 w-3 text-[#ff5a1f]" />
+                  <YouTubeIcon className="h-3.5 w-3.5 text-[#ff0033]" />
                 ) : (
                   item.featured && <Sparkles className="h-2.5 w-2.5 text-[#ffb020]" />
                 )}
@@ -348,7 +348,7 @@ export function Work() {
           <div
             role="tablist"
             aria-label="Filter portfolio videos by category"
-            className="flex flex-wrap gap-1.5 rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-surface)] p-1.5"
+            className="film-scrollbar flex w-full flex-nowrap gap-1.5 overflow-x-auto rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-surface)] p-1.5 sm:w-auto sm:flex-wrap sm:overflow-visible"
           >
             {CATEGORIES.map((category) => {
               const active = activeCategory === category;
@@ -367,7 +367,7 @@ export function Work() {
                     setActiveCategory(category);
                     setModalIndex(null);
                   }}
-                  className={`relative min-h-[40px] rounded-xl px-3 py-1.5 font-mono text-[10px] tracking-[0.08em] uppercase transition-colors cursor-pointer sm:px-3.5 sm:text-[11px] ${
+                  className={`relative min-h-[40px] shrink-0 whitespace-nowrap rounded-xl px-3 py-1.5 font-mono text-[10px] tracking-[0.08em] uppercase transition-colors cursor-pointer sm:px-3.5 sm:text-[11px] ${
                     active
                       ? "font-semibold text-[var(--accent-contrast)]"
                       : "text-[var(--text-muted)] hover:text-[var(--text-primary)]"

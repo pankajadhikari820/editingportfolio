@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { MessageCircle } from "lucide-react";
 import { buildWhatsAppUrl } from "../utils/video";
+import { WhatsAppIcon } from "./BrandIcons";
 
 export function FloatingWhatsApp() {
   const [obscured, setObscured] = useState(false);
@@ -68,7 +68,7 @@ export function FloatingWhatsApp() {
           : "translate-y-0 opacity-100"
       }`}
     >
-      <MessageCircle className="h-5 w-5 shrink-0 fill-current" />
+      <WhatsAppIcon className="h-5 w-5 shrink-0" />
       <span className="hidden text-xs font-semibold tracking-[0.12em] uppercase sm:inline">
         WhatsApp
       </span>

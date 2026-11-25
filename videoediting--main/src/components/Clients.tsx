@@ -29,9 +29,11 @@ function MarqueeClientPill({ client }: { client: ClientItem }) {
       </span>
       <span
         aria-hidden="true"
-        className="ml-3 font-mono text-xs text-[var(--accent-solid)]/75 sm:ml-6"
+        className="ml-3 inline-flex items-center text-[var(--accent-solid)]/80 sm:ml-6"
       >
-        ✦
+        <svg viewBox="0 0 16 16" fill="currentColor" className="h-2.5 w-2.5">
+          <path d="M8 0L9.9 6.1L16 8L9.9 9.9L8 16L6.1 9.9L0 8L6.1 6.1L8 0Z" />
+        </svg>
       </span>
     </div>
   );

@@ -8,12 +8,67 @@ interface CreatorAvatarProps {
   size?: "xs" | "sm" | "md" | "lg";
 }
 
-const SIZE_CLASSES: Record<NonNullable<CreatorAvatarProps["size"]>, { box: string; px: number; text: string }> = {
+const SIZE_CLASSES: Record<
+  NonNullable<CreatorAvatarProps["size"]>,
+  { box: string; px: number; text: string }
+> = {
   xs: { box: "h-7 w-7", px: 28, text: "text-xs" },
   sm: { box: "h-10 w-10", px: 40, text: "text-sm" },
   md: { box: "h-12 w-12", px: 48, text: "text-xl" },
   lg: { box: "h-16 w-16", px: 64, text: "text-2xl" },
 };
+
+function AvatarImage({
+  src,
+  name,
+  initials,
+  px,
+  textClass,
+  loading,
+}: {
+  src: string;
+  name: string;
+  initials: string;
+  px: number;
+  textClass: string;
+  loading: boolean;
+}) {
+  const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+
+  if (imgError) {
+    return loading ? null : (
+      <span className={`font-display tracking-wider text-[#f5f2eb] ${textClass}`}>
+        {initials}
+      </span>
+    );
+  }
+
+  return (
+    <>
+      {(loading || !imgLoaded) && (
+        <div
+          aria-hidden="true"
+          className="skeleton-shimmer absolute inset-0 rounded-full"
+        />
+      )}
+      <img
+        src={src}
+        alt={`${name} avatar`}
+        width={px}
+        height={px}
+        loading="lazy"
+        decoding="async"
+        referrerPolicy="no-referrer"
+        onLoad={() => setImgLoaded(true)}
+        onError={() => setImgError(true)}
+        className={`h-full w-full object-cover transition-opacity duration-300 ${
+          imgLoaded ? "opacity-100" : "opacity-0"
+        }`}
+      />
+    </>
+  );
+}
 
 export function CreatorAvatar({
   src,
@@ -22,11 +77,8 @@ export function CreatorAvatar({
   loading = false,
   size = "md",
 }: CreatorAvatarProps) {
-  const [imgError, setImgError] = useState(false);
-  const [imgLoaded, setImgLoaded] = useState(false);
-
   const dims = SIZE_CLASSES[size];
-  const hasImage = Boolean(src && src.trim().length > 0 && !imgError);
+  const trimmedSrc = src?.trim() ?? "";
 
   return (
     <div
@@ -43,37 +95,25 @@ export function CreatorAvatar({
       />
 
       <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-[#131210]">
-        {/* Shimmering skeleton while loading or waiting for image */}
-        {(loading || (hasImage && !imgLoaded)) && (
+        {trimmedSrc ? (
+          <AvatarImage
+            key={trimmedSrc}
+            src={trimmedSrc}
+            name={name}
+            initials={initials}
+            px={dims.px}
+            textClass={dims.text}
+            loading={loading}
+          />
+        ) : loading ? (
           <div
             aria-hidden="true"
             className="skeleton-shimmer absolute inset-0 rounded-full"
           />
-        )}
-
-        {hasImage ? (
-          <img
-            src={src}
-            alt={`${name} avatar`}
-            width={dims.px}
-            height={dims.px}
-            loading="lazy"
-            decoding="async"
-            referrerPolicy="no-referrer"
-            onLoad={() => setImgLoaded(true)}
-            onError={() => setImgError(true)}
-            className={`h-full w-full object-cover transition-opacity duration-300 ${
-              imgLoaded ? "opacity-100" : "opacity-0"
-            }`}
-          />
         ) : (
-          !loading && (
-            <span
-              className={`font-display tracking-wider text-[#f5f2eb] ${dims.text}`}
-            >
-              {initials}
-            </span>
-          )
+          <span className={`font-display tracking-wider text-[#f5f2eb] ${dims.text}`}>
+            {initials}
+          </span>
         )}
       </div>
     </div>

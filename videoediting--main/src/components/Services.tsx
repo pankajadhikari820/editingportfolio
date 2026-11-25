@@ -4,6 +4,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUpRight } from "lucide-react";
 import { SERVICES, TOOLS } from "../data";
 import { useDeviceCapabilities } from "../hooks/useDeviceCapabilities";
+import {
+  AfterEffectsIcon,
+  CapCutIcon,
+  PremiereProIcon,
+} from "./BrandIcons";
 import { SpotlightCard } from "./SpotlightCard";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -70,16 +75,14 @@ export function Services() {
                       className="rounded-lg border-[var(--border-subtle)] hover:border-[var(--accent-solid)]/60"
                     >
                       <div className="flex items-center gap-4 px-4 py-3.5">
-                        <div
-                          aria-hidden="true"
-                          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border font-mono text-sm font-bold"
-                          style={{
-                            borderColor: `${tool.accent}66`,
-                            backgroundColor: `${tool.accent}18`,
-                            color: tool.accent,
-                          }}
-                        >
-                          {tool.shortCode}
+                        <div className="shrink-0">
+                          {tool.shortCode === "Pr" ? (
+                            <PremiereProIcon className="h-11 w-11 shadow-md" />
+                          ) : tool.shortCode === "Ae" ? (
+                            <AfterEffectsIcon className="h-11 w-11 shadow-md" />
+                          ) : (
+                            <CapCutIcon className="h-11 w-11 shadow-md" />
+                          )}
                         </div>
                         <div>
                           <p className="text-sm font-semibold text-[var(--text-primary)]">

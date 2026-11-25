@@ -27,6 +27,7 @@ export interface CreatorApiResponse {
 
 export interface CreatorApiError {
   error: string;
+  configured?: boolean;
   code:
     | "BAD_REQUEST"
     | "NO_API_KEY"
@@ -203,9 +204,10 @@ export async function handleCreatorQuery(
 ): Promise<HandlerResult> {
   if (!apiKey || !apiKey.trim()) {
     return {
-      status: 503,
+      status: 200,
       headers: NO_CACHE_HEADERS,
       body: {
+        configured: false,
         error: "YouTube API key is not configured on the server.",
         code: "NO_API_KEY",
       },

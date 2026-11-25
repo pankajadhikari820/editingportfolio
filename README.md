@@ -9,13 +9,13 @@ npm install
 npm run dev
 ```
 
-## Build for Vercel / Netlify
+## Build for Vercel
 
 ```bash
 npm run build
 ```
 
-Deploy the `dist/` folder directly to Vercel or Netlify (no backend or environment variables required).
+Deploy the `dist/` folder directly to Vercel (no backend or environment variables required).
 
 ---
 

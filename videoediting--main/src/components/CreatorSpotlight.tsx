@@ -6,10 +6,10 @@ import {
   Users,
   Sparkles,
   ExternalLink,
-  Youtube,
   CheckCircle2,
   Film,
 } from "lucide-react";
+import { YouTubeIcon } from "./BrandIcons";
 import { FEATURED_YOUTUBE_CREATORS, SELECTED_WORK, type ClientItem } from "../data";
 import { useCreator, type CreatorVideo } from "../hooks/useCreator";
 import { useDeviceCapabilities } from "../hooks/useDeviceCapabilities";
@@ -214,7 +214,7 @@ function CreatorSpotlightCard({
             data-cursor="VISIT"
             className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 self-start rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 font-mono text-xs tracking-[0.14em] text-[#f5f2eb] uppercase transition-colors hover:border-[#ff7a1f]/70 hover:text-[#ff8a1f] sm:self-center"
           >
-            <Youtube className="h-4 w-4 text-[#ff5a1f]" />
+            <YouTubeIcon className="h-4 w-4 text-[#ff0033]" />
             <span>Visit Channel</span>
             <ExternalLink className="h-3.5 w-3.5" />
           </a>

@@ -53,7 +53,7 @@ function BreakdownVideoCard({
           className="flex w-full flex-col text-left cursor-pointer sm:flex-row"
         >
           {/* 9:16 Vertical Video Breakdown Preview */}
-          <div className="relative aspect-[9/13] max-h-[380px] w-full shrink-0 overflow-hidden bg-black sm:aspect-[9/14] sm:max-h-none sm:w-[220px]">
+          <div className="relative aspect-[4/5] max-h-[340px] w-full shrink-0 overflow-hidden bg-black sm:aspect-[9/14] sm:max-h-none sm:w-[240px] lg:w-[260px]">
             <img
               src={item.posterUrl}
               alt={item.title}
@@ -191,14 +191,14 @@ export function BeforeAfter() {
           <div
             role="tablist"
             aria-label="Before and After Lab view"
-            className="inline-flex self-start rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface)] p-1 lg:self-end"
+            className="inline-flex flex-wrap self-start rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-surface)] p-1 sm:rounded-full lg:self-end"
           >
             <button
               type="button"
               role="tab"
               aria-selected={mode === "videos"}
               onClick={() => setMode("videos")}
-              className={`min-h-[40px] rounded-full px-4 py-1.5 font-mono text-xs tracking-[0.12em] uppercase transition-colors cursor-pointer ${
+              className={`min-h-[40px] rounded-xl px-3.5 py-1.5 font-mono text-[11px] tracking-[0.1em] uppercase transition-colors cursor-pointer sm:rounded-full sm:px-4 sm:text-xs ${
                 mode === "videos"
                   ? "bg-amber-gradient font-semibold"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)]"
@@ -211,7 +211,7 @@ export function BeforeAfter() {
               role="tab"
               aria-selected={mode === "slider"}
               onClick={() => setMode("slider")}
-              className={`min-h-[40px] rounded-full px-4 py-1.5 font-mono text-xs tracking-[0.12em] uppercase transition-colors cursor-pointer ${
+              className={`min-h-[40px] rounded-xl px-3.5 py-1.5 font-mono text-[11px] tracking-[0.1em] uppercase transition-colors cursor-pointer sm:rounded-full sm:px-4 sm:text-xs ${
                 mode === "slider"
                   ? "bg-amber-gradient font-semibold"
                   : "text-[var(--text-muted)] hover:text-[var(--text-primary)]"
@@ -301,7 +301,7 @@ export function BeforeAfter() {
                     onPointerUp={handlePointerUp}
                     onKeyDown={handleKeyDown}
                     data-cursor="DRAG"
-                    className="relative aspect-video w-full touch-pan-y select-none overflow-hidden bg-[#0a0a0a] cursor-ew-resize"
+                    className="relative aspect-video w-full touch-none select-none overflow-hidden bg-[#0a0a0a] cursor-ew-resize"
                   >
                     <img
                       src={activeItem.afterImage}

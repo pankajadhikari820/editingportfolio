@@ -3,8 +3,6 @@ import { motion } from "motion/react";
 import {
   Phone,
   Mail,
-  MessageCircle,
-  Instagram,
   Send,
   CheckCircle2,
   AlertCircle,
@@ -16,6 +14,7 @@ import {
 import { CONTACT, SITE_INFO, WEB3FORMS_ACCESS_KEY } from "../data";
 import { useDeviceCapabilities } from "../hooks/useDeviceCapabilities";
 import { buildWhatsAppUrl } from "../utils/video";
+import { InstagramIcon, WhatsAppIcon } from "./BrandIcons";
 import { MagneticButton } from "./MagneticButton";
 
 interface FormState {
@@ -174,7 +173,7 @@ export function Contact() {
       label: "WhatsApp",
       value: CONTACT.phoneDisplay,
       href: CONTACT.whatsappUrl,
-      icon: MessageCircle,
+      icon: WhatsAppIcon,
       external: true,
     },
     {
@@ -195,7 +194,7 @@ export function Contact() {
       label: "Instagram",
       value: CONTACT.instagramHandle,
       href: CONTACT.instagramUrl,
-      icon: Instagram,
+      icon: InstagramIcon,
       external: true,
     },
   ];
@@ -498,7 +497,7 @@ export function Contact() {
                       rel="noopener noreferrer"
                       className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-amber-gradient px-5 py-2.5 text-xs font-semibold tracking-[0.12em] uppercase transition-opacity hover:opacity-95"
                     >
-                      <MessageCircle className="h-4 w-4" />
+                      <WhatsAppIcon className="h-4 w-4" />
                       Send prefilled details on WhatsApp
                     </a>
                   </div>
@@ -533,7 +532,7 @@ export function Contact() {
                     className="w-full px-6 py-3.5 text-sm sm:w-auto"
                     cursorLabel="CHAT"
                   >
-                    <MessageCircle className="h-4 w-4 text-[var(--accent-solid)]" />
+                    <WhatsAppIcon className="h-4 w-4 text-[#25D366]" />
                     Message on WhatsApp instead
                   </MagneticButton>
                 </div>

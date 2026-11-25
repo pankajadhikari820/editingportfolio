@@ -1,10 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowDown, Play, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowDown, Play, Volume2 } from "lucide-react";
 import { HERO_SHOWREEL, SITE_INFO } from "../data";
 import { useDeviceCapabilities } from "../hooks/useDeviceCapabilities";
 import { buildWhatsAppUrl, extractYouTubeVideoId } from "../utils/video";
+import {
+  AfterEffectsIcon,
+  CapCutIcon,
+  PremiereProIcon,
+  WhatsAppIcon,
+} from "./BrandIcons";
 import { MagneticButton } from "./MagneticButton";
 import { CinemaModal, type CinemaModalVideo } from "./CinemaModal";
 
@@ -82,7 +88,7 @@ export function Hero({ ready }: HeroProps) {
       const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
       if (isDesktop && !lowPowerDevice && viewfinderRef.current) {
         gsap.to(viewfinderRef.current, {
-          yPercent: 8,
+          yPercent: 6,
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -134,7 +140,7 @@ export function Hero({ ready }: HeroProps) {
     <section
       id="top"
       ref={sectionRef}
-      className="relative flex min-h-[100dvh] w-full flex-col justify-between overflow-hidden px-4 pt-20 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-8 sm:pt-24 sm:pb-10"
+      className="relative flex min-h-[100dvh] w-full flex-col justify-between overflow-hidden px-3.5 pt-20 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-8 sm:pt-24 sm:pb-8"
     >
       {/* Ambient cinematic aperture light behind viewfinder */}
       <div
@@ -155,29 +161,29 @@ export function Hero({ ready }: HeroProps) {
       {/* Main Viewfinder Frame Container */}
       <div
         ref={viewfinderRef}
-        className="relative mx-auto flex w-full max-w-[1320px] flex-1 flex-col justify-between rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)]/45 p-4 backdrop-blur-[2px] sm:p-10 lg:p-14"
+        className="relative mx-auto flex w-full max-w-[1320px] flex-1 flex-col justify-between rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-surface)]/45 p-4 backdrop-blur-[2px] sm:p-8 lg:p-11"
       >
         {/* Camera Viewfinder Corner Brackets */}
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -top-px -left-px h-6 w-6 rounded-tl-xl border-t-2 border-l-2 border-[var(--accent-solid)]"
+          className="pointer-events-none absolute -top-px -left-px h-5 w-5 rounded-tl-xl border-t-2 border-l-2 border-[var(--accent-solid)] sm:h-6 sm:w-6"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -top-px -right-px h-6 w-6 rounded-tr-xl border-t-2 border-r-2 border-[var(--accent-solid)]"
+          className="pointer-events-none absolute -top-px -right-px h-5 w-5 rounded-tr-xl border-t-2 border-r-2 border-[var(--accent-solid)] sm:h-6 sm:w-6"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-px -left-px h-6 w-6 rounded-bl-xl border-b-2 border-l-2 border-[var(--accent-solid)]"
+          className="pointer-events-none absolute -bottom-px -left-px h-5 w-5 rounded-bl-xl border-b-2 border-l-2 border-[var(--accent-solid)] sm:h-6 sm:w-6"
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-px -right-px h-6 w-6 rounded-br-xl border-b-2 border-r-2 border-[var(--accent-solid)]"
+          className="pointer-events-none absolute -bottom-px -right-px h-5 w-5 rounded-br-xl border-b-2 border-r-2 border-[var(--accent-solid)] sm:h-6 sm:w-6"
         />
 
         {/* Top Viewfinder HUD Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] tracking-[0.2em] text-[var(--text-muted)] uppercase sm:text-xs">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-[10px] tracking-[0.18em] text-[var(--text-muted)] uppercase sm:text-xs">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             <span className="inline-flex items-center gap-2 text-[var(--text-primary)]">
               <span
                 aria-hidden="true"
@@ -191,23 +197,27 @@ export function Hero({ ready }: HeroProps) {
             <span className="tabular-nums text-[var(--text-primary)]">{timecode}</span>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-strong)] bg-[var(--bg-primary)]/70 px-2.5 py-0.5 text-[10px] text-[var(--accent-solid)]">
-              <Sparkles className="h-3 w-3" />
-              Pr · Ae · CC
-            </span>
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div
+              aria-label="Premiere Pro, After Effects, CapCut"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-strong)] bg-[var(--bg-primary)]/80 px-2.5 py-1"
+            >
+              <PremiereProIcon className="h-4 w-4 rounded-[4px]" />
+              <AfterEffectsIcon className="h-4 w-4 rounded-[4px]" />
+              <CapCutIcon className="h-4 w-4 rounded-[4px]" />
+            </div>
             <span className="hidden sm:inline">24 FPS · 4K MASTER</span>
           </div>
         </div>
 
-        {/* Center Hero Headline, Live Video Showreel Preview & CTAs */}
-        <div className="my-auto grid grid-cols-1 items-end gap-8 py-8 sm:py-12 lg:grid-cols-12 lg:py-14">
-          <div className="lg:col-span-7 xl:col-span-8">
-            <p className="hero-fade-up mb-3 font-mono text-xs tracking-[0.24em] text-[var(--accent-solid)] uppercase sm:mb-5 sm:text-[13px]">
+        {/* Center Hero Headline & Prominent Broadcast Video Monitor */}
+        <div className="my-auto grid grid-cols-1 items-center gap-8 py-6 sm:py-10 lg:grid-cols-12 lg:gap-10 lg:py-8">
+          <div className="lg:col-span-6">
+            <p className="hero-fade-up mb-3 font-mono text-[11px] tracking-[0.22em] text-[var(--accent-solid)] uppercase sm:mb-4 sm:text-[13px]">
               {SITE_INFO.name} · {SITE_INFO.role}
             </p>
 
-            <h1 className="max-w-5xl font-display text-[clamp(3.1rem,10vw,8.4rem)] leading-[0.88] tracking-[0.02em] text-[var(--text-primary)] uppercase [text-wrap:balance]">
+            <h1 className="font-display text-[clamp(2.75rem,8.5vw,5.4rem)] leading-[0.9] tracking-[0.02em] text-[var(--text-primary)] uppercase [text-wrap:balance] lg:text-[clamp(3.3rem,5.2vw,5.6rem)]">
               <span className="block overflow-hidden pb-1">
                 <span className="hero-reveal-line block">I make videos</span>
               </span>
@@ -218,15 +228,15 @@ export function Hero({ ready }: HeroProps) {
               </span>
             </h1>
 
-            <p className="hero-fade-up mt-5 max-w-xl text-base leading-relaxed text-[var(--text-secondary)] sm:mt-7 sm:text-lg">
+            <p className="hero-fade-up mt-4 max-w-xl text-sm leading-relaxed text-[var(--text-secondary)] sm:mt-6 sm:text-base lg:text-[17px]">
               {SITE_INFO.heroSubtitle}
             </p>
 
-            <div className="hero-fade-up mt-7 flex flex-wrap items-center gap-3 sm:mt-9 sm:gap-4">
+            <div className="hero-fade-up mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
               <MagneticButton
                 href="#work"
                 variant="primary"
-                className="px-7 py-3.5 text-sm uppercase tracking-[0.12em]"
+                className="w-full px-7 py-3.5 text-sm uppercase tracking-[0.12em] sm:w-auto"
                 cursorLabel="WATCH"
               >
                 <Play className="h-4 w-4 fill-current" />
@@ -238,77 +248,98 @@ export function Hero({ ready }: HeroProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="secondary"
-                className="px-7 py-3.5 text-sm uppercase tracking-[0.12em]"
+                className="w-full px-7 py-3.5 text-sm uppercase tracking-[0.12em] sm:w-auto"
                 cursorLabel="CHAT"
               >
-                <MessageCircle className="h-4 w-4 text-[var(--accent-solid)]" />
+                <WhatsAppIcon className="h-4 w-4 text-[#25D366]" />
                 WhatsApp me
               </MagneticButton>
             </div>
           </div>
 
-          {/* 21st.dev-style Live Muted Video Showreel Preview Card */}
-          <div className="hero-fade-up lg:col-span-5 xl:col-span-4">
-            <button
-              type="button"
-              onClick={() => setReelOpen(true)}
-              data-cursor="PLAY"
-              aria-label={`Play ${HERO_SHOWREEL.title}`}
-              className="group relative block w-full overflow-hidden rounded-xl border border-[var(--border-strong)] bg-[#0a0a0a] text-left shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent-solid)] hover:shadow-[0_20px_50px_-15px_var(--accent-glow)] cursor-pointer"
-            >
-              <div className="relative aspect-video w-full overflow-hidden bg-black">
-                {HERO_SHOWREEL.localVideoUrl && !reducedMotion && !saveData ? (
-                  <video
-                    src={HERO_SHOWREEL.localVideoUrl}
-                    poster={HERO_SHOWREEL.posterUrl}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    className="h-full w-full object-cover opacity-85 transition-transform duration-700 group-hover:scale-105"
-                  />
-                ) : (
-                  <img
-                    src={
-                      HERO_SHOWREEL.posterUrl ||
-                      (showreelYoutubeId
-                        ? `https://i.ytimg.com/vi/${showreelYoutubeId}/hqdefault.jpg`
-                        : "/og-image.jpg")
-                    }
-                    alt={HERO_SHOWREEL.title}
-                    width={640}
-                    height={360}
-                    loading="eager"
-                    className="h-full w-full object-cover opacity-85 transition-transform duration-700 group-hover:scale-105"
-                  />
-                )}
-
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/30" />
-
-                <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] text-white uppercase backdrop-blur-md">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#ff5a1f]" />
-                  Showreel Preview
-                </div>
-
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="flex h-13 w-13 items-center justify-center rounded-full bg-amber-gradient text-[var(--accent-contrast)] shadow-xl transition-transform duration-200 group-hover:scale-110">
-                    <Play className="ml-0.5 h-5 w-5 fill-current" />
-                  </span>
-                </div>
-
-                <div className="absolute inset-x-3.5 bottom-3 flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-white/90 uppercase">
-                  <span>Click for sound</span>
-                  <span className="tabular-nums">{HERO_SHOWREEL.duration}</span>
-                </div>
+          {/* Large Cinema Showreel Monitor Card */}
+          <div className="hero-fade-up lg:col-span-6">
+            <div className="overflow-hidden rounded-xl border border-[var(--border-strong)] bg-[#0b0b0b] shadow-[0_24px_70px_-15px_rgba(0,0,0,0.85)] transition-all duration-300 hover:border-[var(--accent-solid)]/80 hover:shadow-[0_24px_70px_-15px_var(--accent-glow)]">
+              {/* Pro NLE Monitor Top Chrome Bar */}
+              <div className="flex items-center justify-between gap-2 border-b border-white/[0.08] bg-[#121212] px-3.5 py-2.5 font-mono text-[10px] tracking-[0.16em] text-[#b4afa6] uppercase sm:px-4">
+                <span className="inline-flex items-center gap-2 text-[#f5f2eb]">
+                  <span className="h-2 w-2 rounded-full bg-[#ff5a1f] shadow-[0_0_8px_#ff5a1f]" />
+                  PROGRAM MONITOR · SHOWREEL
+                </span>
+                <span className="hidden text-[#9e998e] sm:inline">16:9 · 4K MASTER</span>
               </div>
-            </button>
+
+              <button
+                type="button"
+                onClick={() => setReelOpen(true)}
+                data-cursor="PLAY"
+                aria-label={`Play ${HERO_SHOWREEL.title}`}
+                className="group relative block w-full bg-black text-left cursor-pointer"
+              >
+                <div className="relative aspect-video w-full overflow-hidden bg-black">
+                  {HERO_SHOWREEL.localVideoUrl && !reducedMotion && !saveData ? (
+                    <video
+                      src={HERO_SHOWREEL.localVideoUrl}
+                      poster={HERO_SHOWREEL.posterUrl}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      className="h-full w-full object-cover opacity-95 transition-transform duration-700 group-hover:scale-[1.03]"
+                    />
+                  ) : (
+                    <img
+                      src={
+                        HERO_SHOWREEL.posterUrl ||
+                        (showreelYoutubeId
+                          ? `https://i.ytimg.com/vi/${showreelYoutubeId}/hqdefault.jpg`
+                          : "/og-image.jpg")
+                      }
+                      alt={HERO_SHOWREEL.title}
+                      width={1280}
+                      height={720}
+                      loading="eager"
+                      className="h-full w-full object-cover opacity-95 transition-transform duration-700 group-hover:scale-[1.03]"
+                    />
+                  )}
+
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/25" />
+
+                  {/* Safe-margin viewfinder corner ticks inside monitor */}
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute top-3 left-3 h-3.5 w-3.5 border-t border-l border-white/35"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute top-3 right-3 h-3.5 w-3.5 border-t border-r border-white/35"
+                  />
+
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-amber-gradient text-[var(--accent-contrast)] shadow-2xl transition-transform duration-200 group-hover:scale-110 sm:h-16 sm:w-16">
+                      <Play className="ml-0.5 h-6 w-6 fill-current sm:h-7 sm:w-7" />
+                    </span>
+                  </div>
+
+                  <div className="absolute inset-x-3.5 bottom-3 flex items-center justify-between gap-2 font-mono text-[10px] tracking-[0.14em] text-white/95 uppercase sm:inset-x-4 sm:bottom-3.5 sm:text-[11px]">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-2.5 py-1 backdrop-blur-md">
+                      <Volume2 className="h-3.5 w-3.5 text-[#ff8a1f]" />
+                      Watch with sound
+                    </span>
+                    <span className="rounded-full border border-white/15 bg-black/60 px-2.5 py-1 tabular-nums backdrop-blur-md">
+                      {HERO_SHOWREEL.duration}
+                    </span>
+                  </div>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Bottom Viewfinder HUD Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-[var(--border-subtle)] pt-4 font-mono text-[11px] tracking-[0.18em] text-[var(--text-muted)] uppercase sm:text-xs">
-          <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--border-subtle)] pt-3.5 font-mono text-[10px] tracking-[0.16em] text-[var(--text-muted)] uppercase sm:pt-4 sm:text-xs">
+          <div className="flex flex-wrap items-center gap-2">
             <span>{SITE_INFO.shortLocation}</span>
             <span aria-hidden="true" className="opacity-30">
               ·

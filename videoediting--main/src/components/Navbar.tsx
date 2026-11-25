@@ -4,6 +4,7 @@ import { Menu, X, ArrowUpRight, SlidersHorizontal } from "lucide-react";
 import { CONTACT, SITE_INFO } from "../data";
 import { COLOR_GRADE_META, type ColorGradeMode } from "../hooks/useColorGrade";
 import { useDeviceCapabilities } from "../hooks/useDeviceCapabilities";
+import { StudioApertureIcon } from "./BrandIcons";
 import { MagneticButton } from "./MagneticButton";
 
 const NAV_LINKS = [
@@ -106,9 +107,10 @@ export function Navbar({ grade, onCycleGrade }: NavbarProps) {
         <div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between gap-4 px-4 sm:h-[72px] sm:gap-8 sm:px-8">
           <a
             href="#top"
-            className="font-display text-xl tracking-[0.12em] text-[var(--text-primary)] whitespace-nowrap shrink-0 transition-colors hover:text-[var(--accent-solid)] sm:text-[1.7rem]"
+            className="inline-flex items-center gap-2 font-display text-lg tracking-[0.11em] text-[var(--text-primary)] whitespace-nowrap shrink-0 transition-colors hover:text-[var(--accent-solid)] sm:gap-2.5 sm:text-[1.7rem]"
           >
-            {SITE_INFO.brandLogo}
+            <StudioApertureIcon className="h-5 w-5 text-[var(--accent-solid)] sm:h-6 sm:w-6" />
+            <span>{SITE_INFO.brandLogo}</span>
           </a>
 
           {/* Desktop Navigation (1024px+ so 768px tablets never crowd) */}
